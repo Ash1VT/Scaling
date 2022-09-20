@@ -1,0 +1,10 @@
+D:\Study\3 course\CG\Scaling\Scaling\bin\Debug\Scaling.exe.config
+D:\Study\3 course\CG\Scaling\Scaling\bin\Debug\Scaling.exe
+D:\Study\3 course\CG\Scaling\Scaling\bin\Debug\Scaling.pdb
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.csproj.AssemblyReference.cache
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.MainForm.resources
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.Properties.Resources.resources
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.csproj.GenerateResource.cache
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.csproj.CoreCompileInputs.cache
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.exe
+D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.pdb
