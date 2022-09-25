@@ -8,3 +8,14 @@ D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.csproj.GenerateResource.c
 D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.csproj.CoreCompileInputs.cache
 D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.exe
 D:\Study\3 course\CG\Scaling\Scaling\obj\Debug\Scaling.pdb
+D:\labs\scaling\Scaling\bin\Debug\Scaling.exe.config
+D:\labs\scaling\Scaling\bin\Debug\Scaling.exe
+D:\labs\scaling\Scaling\bin\Debug\Scaling.pdb
+D:\labs\scaling\Scaling\obj\Debug\Scaling.csproj.AssemblyReference.cache
+D:\labs\scaling\Scaling\obj\Debug\Scaling.csproj.SuggestedBindingRedirects.cache
+D:\labs\scaling\Scaling\obj\Debug\Scaling.MainForm.resources
+D:\labs\scaling\Scaling\obj\Debug\Scaling.Properties.Resources.resources
+D:\labs\scaling\Scaling\obj\Debug\Scaling.csproj.GenerateResource.cache
+D:\labs\scaling\Scaling\obj\Debug\Scaling.csproj.CoreCompileInputs.cache
+D:\labs\scaling\Scaling\obj\Debug\Scaling.exe
+D:\labs\scaling\Scaling\obj\Debug\Scaling.pdb
