@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,8 @@ namespace Scaling
 {
     public partial class MainForm : Form
     {
-        private int NewHeight { get; set; }
-        private int NewWidth { get; set; }
-        
-        
+        private ImageExtension _imageExtension;
+        private PixelFilling _pixelFilling;
         public MainForm()
         {
             InitializeComponent();
@@ -32,19 +31,11 @@ namespace Scaling
             {
                 InitImage(dialog.FileName);
                 FillImageInformation();
+
+                
             }
             
             
-        }
-        private String BytesToString(long byteCount)
-        {
-            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
-            if (byteCount == 0)
-                return "0" + suf[0];
-            long bytes = Math.Abs(byteCount);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -60,12 +51,19 @@ namespace Scaling
 
         private void FillImageInformation()
         {
-            resolutionLabel.Text = $"{Data.CurrentBitmap.HorizontalResolution}x{Data.CurrentBitmap.VerticalResolution}";
-            fileSizeLabel.Text = $"{BytesToString(Data.FileInfo.Length)}";
+            resolutionLabel.Text = $"{Data.CurrentBitmap.Width}x{Data.CurrentBitmap.Height}";
+            fileSizeLabel.Text = $"{Utility.BytesToString(Data.FileInfo.Length)}";
             fileFormatLabel.Text = $"{Path.GetExtension(Data.FileInfo.Name)}";
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            _imageExtension = new ImageExtension(Data.EmptyColor);
+            _pixelFilling = new PixelFilling(Data.EmptyColor, Data.CurrentAlgorithm);
+
+            Data.CurrentAlgorithm = new NearestNeighbourAlgorithm();
+            InitAlgorithm();
+
+
         }
 
         private void InitImage(string path)
@@ -74,24 +72,40 @@ namespace Scaling
             pictureBox1.Image = image;
             
             Data.CurrentBitmap = new Bitmap(image);
+            Data.InitialBitmap = Data.CurrentBitmap;
+            
             Data.FileInfo = new FileInfo(path);
         }
 
 
         private void XScaleButton_Click(object sender, EventArgs e)
         {
-            Bitmap btm = new Bitmap(Data.CurrentBitmap.Width * 2, Data.CurrentBitmap.Height * 2);
-            pictureBox1.Image = Data.CurrentBitmap;
-                        
-            FillImageInformation();
+            Data.XCoefficient = double.Parse(XScaleTextBox.Text);
+            
+            Extend();
         }
 
         private void YScaleButton_Click(object sender, EventArgs e)
         {
+            Data.YCoefficient = int.Parse(YScaleTextBox.Text);
+            Extend();            
         }
 
         private void XYScaleButton_Click(object sender, EventArgs e)
         {
+            Data.XCoefficient = int.Parse(XYScaleTextBox.Text);
+            Data.YCoefficient = int.Parse(XYScaleTextBox.Text);
+            Extend();
+        }
+
+        private void Extend()
+        {
+            Data.InterpolatedBitmap = _imageExtension.Extend(Data.CurrentBitmap, Data.XCoefficient, Data.YCoefficient);
+            Data.CurrentBitmap = Data.InterpolatedBitmap;
+            
+            pictureBox1.Image = Data.CurrentBitmap;
+            
+            FillImageInformation();            
         }
 
         private void nearestNeighbourToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -115,6 +129,15 @@ namespace Scaling
         private void InitAlgorithm()
         {
             algorithmLabel.Text = Data.CurrentAlgorithm.ToString();
+            _pixelFilling.Algorithm = Data.CurrentAlgorithm;
+        }
+
+        private void interpolateButton_Click(object sender, EventArgs e)
+        {
+            
+            _pixelFilling.Fill(Data.InitialBitmap, Data.InterpolatedBitmap, Data.YCoefficient, Data.XCoefficient);
+            Data.CurrentBitmap = Data.InterpolatedBitmap;
+            pictureBox1.Image = Data.CurrentBitmap;
         }
     }
 }
