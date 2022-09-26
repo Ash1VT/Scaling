@@ -47,6 +47,7 @@ namespace Scaling
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.inputInfoPanel = new System.Windows.Forms.Panel();
+            this.interpolateButton = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.XYScaleButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -158,7 +159,7 @@ namespace Scaling
             this.imageInfoPanel.Location = new System.Drawing.Point(988, 47);
             this.imageInfoPanel.Margin = new System.Windows.Forms.Padding(4);
             this.imageInfoPanel.Name = "imageInfoPanel";
-            this.imageInfoPanel.Size = new System.Drawing.Size(499, 200);
+            this.imageInfoPanel.Size = new System.Drawing.Size(527, 200);
             this.imageInfoPanel.TabIndex = 4;
             // 
             // resolutionLabel
@@ -188,7 +189,7 @@ namespace Scaling
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("NSimSun", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(102, 14);
+            this.label4.Location = new System.Drawing.Point(114, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(308, 35);
             this.label4.TabIndex = 3;
@@ -227,13 +228,14 @@ namespace Scaling
             this.pictureBox1.Location = new System.Drawing.Point(16, 47);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(942, 642);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
             // inputInfoPanel
             // 
             this.inputInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.inputInfoPanel.Controls.Add(this.interpolateButton);
             this.inputInfoPanel.Controls.Add(this.label6);
             this.inputInfoPanel.Controls.Add(this.XYScaleButton);
             this.inputInfoPanel.Controls.Add(this.label7);
@@ -244,10 +246,21 @@ namespace Scaling
             this.inputInfoPanel.Controls.Add(this.YScaleTextBox);
             this.inputInfoPanel.Controls.Add(this.XScaleTextBox);
             this.inputInfoPanel.Controls.Add(this.label5);
-            this.inputInfoPanel.Location = new System.Drawing.Point(988, 590);
+            this.inputInfoPanel.Location = new System.Drawing.Point(988, 541);
             this.inputInfoPanel.Name = "inputInfoPanel";
-            this.inputInfoPanel.Size = new System.Drawing.Size(499, 225);
+            this.inputInfoPanel.Size = new System.Drawing.Size(527, 274);
             this.inputInfoPanel.TabIndex = 6;
+            // 
+            // interpolateButton
+            // 
+            this.interpolateButton.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.interpolateButton.Location = new System.Drawing.Point(14, 206);
+            this.interpolateButton.Name = "interpolateButton";
+            this.interpolateButton.Size = new System.Drawing.Size(453, 52);
+            this.interpolateButton.TabIndex = 14;
+            this.interpolateButton.Text = "Interpolate";
+            this.interpolateButton.UseVisualStyleBackColor = true;
+            this.interpolateButton.Click += new System.EventHandler(this.interpolateButton_Click);
             // 
             // label6
             // 
@@ -261,7 +274,7 @@ namespace Scaling
             // XYScaleButton
             // 
             this.XYScaleButton.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.XYScaleButton.Location = new System.Drawing.Point(278, 158);
+            this.XYScaleButton.Location = new System.Drawing.Point(273, 161);
             this.XYScaleButton.Name = "XYScaleButton";
             this.XYScaleButton.Size = new System.Drawing.Size(194, 38);
             this.XYScaleButton.TabIndex = 13;
@@ -281,7 +294,7 @@ namespace Scaling
             // YScaleButton
             // 
             this.YScaleButton.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.YScaleButton.Location = new System.Drawing.Point(278, 114);
+            this.YScaleButton.Location = new System.Drawing.Point(273, 114);
             this.YScaleButton.Name = "YScaleButton";
             this.YScaleButton.Size = new System.Drawing.Size(194, 38);
             this.YScaleButton.TabIndex = 12;
@@ -301,7 +314,7 @@ namespace Scaling
             // XScaleButton
             // 
             this.XScaleButton.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.XScaleButton.Location = new System.Drawing.Point(278, 70);
+            this.XScaleButton.Location = new System.Drawing.Point(273, 70);
             this.XScaleButton.Name = "XScaleButton";
             this.XScaleButton.Size = new System.Drawing.Size(194, 38);
             this.XScaleButton.TabIndex = 11;
@@ -336,7 +349,7 @@ namespace Scaling
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("NSimSun", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(102, 19);
+            this.label5.Location = new System.Drawing.Point(102, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(308, 35);
             this.label5.TabIndex = 7;
@@ -350,10 +363,10 @@ namespace Scaling
             this.algorithmInfoPanel.Controls.Add(this.algorithmLabel);
             this.algorithmInfoPanel.Controls.Add(this.label12);
             this.algorithmInfoPanel.Controls.Add(this.label13);
-            this.algorithmInfoPanel.Location = new System.Drawing.Point(988, 296);
+            this.algorithmInfoPanel.Location = new System.Drawing.Point(988, 268);
             this.algorithmInfoPanel.Margin = new System.Windows.Forms.Padding(4);
             this.algorithmInfoPanel.Name = "algorithmInfoPanel";
-            this.algorithmInfoPanel.Size = new System.Drawing.Size(499, 250);
+            this.algorithmInfoPanel.Size = new System.Drawing.Size(527, 250);
             this.algorithmInfoPanel.TabIndex = 7;
             // 
             // label9
@@ -384,7 +397,7 @@ namespace Scaling
             // label12
             // 
             this.label12.Font = new System.Drawing.Font("NSimSun", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(80, 18);
+            this.label12.Location = new System.Drawing.Point(99, 20);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(383, 35);
             this.label12.TabIndex = 3;
@@ -427,6 +440,8 @@ namespace Scaling
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Button interpolateButton;
 
         private System.Windows.Forms.Label label13;
 
