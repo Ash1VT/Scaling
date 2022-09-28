@@ -24,7 +24,7 @@ namespace Scaling.Algorithms
             int y_ceil = (int)Math.Min(oldBitmap.Height - 1, Math.Ceiling(y));
 
 
-
+            // xf0  yf3  xc1 yc4
 
             List<double> q;
             List<double> q1;
