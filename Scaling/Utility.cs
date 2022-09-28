@@ -67,9 +67,12 @@ namespace Scaling
             return new_color_values;
         }
 
-        public static List<double> GetMinimum(List<double> color1_values, List<double> color2_values)
+        public static Pixel GetMinimum(Pixel pixel1, Pixel pixel2)
         {
             List<double> minimum = new List<double>();
+            List<double> color1_values = Utility.ConvertFromColor(pixel1.Color);
+            List<double> color2_values = Utility.ConvertFromColor(pixel2.Color);
+            
             for (int i = 0; i < color1_values.Count; i++)
             {
                 if (color1_values[i] < color2_values[i])
@@ -80,7 +83,7 @@ namespace Scaling
                 }
             }
 
-            return minimum;
+            return new Pixel(Utility.ConvertFromValues(minimum)){Interpolated = true};
         }
 
         public static Color ConvertFromValues(List<double> color_values)

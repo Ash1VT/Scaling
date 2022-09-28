@@ -383,7 +383,7 @@ namespace Scaling
             this.timeLabel.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeLabel.Location = new System.Drawing.Point(278, 168);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(204, 35);
+            this.timeLabel.Size = new System.Drawing.Size(216, 35);
             this.timeLabel.TabIndex = 6;
             // 
             // algorithmLabel
@@ -391,7 +391,7 @@ namespace Scaling
             this.algorithmLabel.Font = new System.Drawing.Font("NSimSun", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.algorithmLabel.Location = new System.Drawing.Point(282, 81);
             this.algorithmLabel.Name = "algorithmLabel";
-            this.algorithmLabel.Size = new System.Drawing.Size(200, 64);
+            this.algorithmLabel.Size = new System.Drawing.Size(212, 64);
             this.algorithmLabel.TabIndex = 4;
             // 
             // label12
@@ -426,6 +426,8 @@ namespace Scaling
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Scaling";
             this.Load += new System.EventHandler(this.MainForm_Load);

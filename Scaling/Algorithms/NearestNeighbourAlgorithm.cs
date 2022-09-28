@@ -10,8 +10,9 @@ namespace Scaling.Algorithms
         }
 
 
-        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, Color emptyColor, double xCoefficient, double yCoefficient)
+        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, double xCoefficient, double yCoefficient)
         {
+            Stopwatch.Start();
             for (int y = 0; y < newPixelMatrix.Height; y++)
             {
                 for (int x = 0; x < newPixelMatrix.Width; x++)
@@ -28,6 +29,7 @@ namespace Scaling.Algorithms
                     newPixelMatrix.SetPixel(x, y, pixel);
                 }
             }
+            Stopwatch.Stop();
         }
         //
         // public override void FillY(Bitmap bitmap, Color emptyColor, int pixelX, int pixelY)
