@@ -18,52 +18,49 @@ namespace Scaling
             // InitNewBitmap();
         }
 
-        public Bitmap Extend(Bitmap bitmap, double xCoefficient, double yCoefficient)
+        public PixelMatrix Extend(PixelMatrix oldPixelMatrix, double xCoefficient, double yCoefficient)
         {
-            // size: 10 x 1 
-            // xcoef = 3.5
+            // size: 3 x 2
+            // xcoef = 3
             // ycoef = 2
-            // newSize: 20 x 1
-            // 1 2 1 1 1 1 1 1 1 1    1 0 2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+            // newSize: 10 x 4
             // 
             // 1 2 6
             // 3 4 7
             //
             //
-            // 1 0 0 2 0 0 0 6 0 0
-            // 0 0 0 0 0 0 0 0 0 0
-            // 3 0 0 4 0 0 0 7 0 0
-            // 0 0 0 0 0 0 0 0 0 0
+            // 1 0 0 2 0 0 6 0 0
+            // 0 0 0 0 0 0 0 0 0
+            // 3 0 0 4 0 0 7 0 0
+            // 0 0 0 0 0 0 0 0 0
             //
-            // x = 1 / 3 = 0,33 , y = 0
-            // x' = 0, y' = 0
-            // b = 0
-            // a = 0,33
-            // I(x,y) = 1 * 1 * I1(1,0)
             
-            Size newSize = SizeCalculator.Calculate(bitmap.Size, xCoefficient, yCoefficient);
-            Bitmap newBitmap = new Bitmap(newSize.Width, newSize.Height);
+            Size newSize = SizeCalculator.Calculate(oldPixelMatrix.Width, oldPixelMatrix.Height, xCoefficient, yCoefficient);
+            PixelMatrix pixelMatrix = new PixelMatrix(newSize.Width, newSize.Height);
             
-            FillWithEmptyColor(newBitmap);
+            FillWithEmptyColor(pixelMatrix);
 
-            for (int y = 0; y < bitmap.Height; y++)
+            for (int y = 0; y < oldPixelMatrix.Height; y++)
             {
-                for (int x = 0; x < bitmap.Width; x++)
+                for (int x = 0; x < oldPixelMatrix.Width; x++)
                 {
-                    newBitmap.SetPixel((int)(x * xCoefficient), (int)(y * yCoefficient), bitmap.GetPixel(x, y));
+                    Pixel pixel = oldPixelMatrix.GetPixel(x, y);
+                    pixel.Interpolated = true;
+                    pixelMatrix.SetPixel((int)(x * xCoefficient), (int)(y * yCoefficient), pixel);
+                    
                 }
             }
 
-            return newBitmap;
+            return pixelMatrix;
         }
 
-        private void FillWithEmptyColor(Bitmap bitmap)
+        private void FillWithEmptyColor(PixelMatrix pixelMatrix)
         {
-            for (int y = 0; y < bitmap.Height; y++)
+            for (int y = 0; y < pixelMatrix.Height; y++)
             {
-                for (int x = 0; x < bitmap.Width; x++)
+                for (int x = 0; x < pixelMatrix.Width; x++)
                 {
-                    bitmap.SetPixel(x,y, _emptyColor);
+                    pixelMatrix.SetPixel(x,y, new Pixel(_emptyColor));
                 }
             }
         }

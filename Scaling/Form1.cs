@@ -17,7 +17,6 @@ namespace Scaling
     public partial class MainForm : Form
     {
         private ImageExtension _imageExtension;
-        private PixelFilling _pixelFilling;
         public MainForm()
         {
             InitializeComponent();
@@ -58,11 +57,9 @@ namespace Scaling
         private void MainForm_Load(object sender, EventArgs e)
         {
             _imageExtension = new ImageExtension(Data.EmptyColor);
-            _pixelFilling = new PixelFilling(Data.EmptyColor, Data.CurrentAlgorithm);
 
             Data.CurrentAlgorithm = new NearestNeighbourAlgorithm();
             InitAlgorithm();
-
 
         }
 
@@ -72,7 +69,9 @@ namespace Scaling
             pictureBox1.Image = image;
             
             Data.CurrentBitmap = new Bitmap(image);
-            Data.InitialBitmap = Data.CurrentBitmap;
+            
+            Data.InitialPixelMatrix = PixelMatrix.FromBitmap(Data.CurrentBitmap);
+            Data.CurrentPixelMatrix = Data.InitialPixelMatrix;
             
             Data.FileInfo = new FileInfo(path);
         }
@@ -81,29 +80,38 @@ namespace Scaling
         private void XScaleButton_Click(object sender, EventArgs e)
         {
             Data.XCoefficient = double.Parse(XScaleTextBox.Text);
-            
+            Data.YCoefficient = 1;
             Extend();
         }
 
         private void YScaleButton_Click(object sender, EventArgs e)
         {
-            Data.YCoefficient = int.Parse(YScaleTextBox.Text);
+            Data.XCoefficient = 1;
+            Data.YCoefficient = double.Parse(YScaleTextBox.Text);
             Extend();            
         }
 
         private void XYScaleButton_Click(object sender, EventArgs e)
         {
-            Data.XCoefficient = int.Parse(XYScaleTextBox.Text);
-            Data.YCoefficient = int.Parse(XYScaleTextBox.Text);
+            Data.XCoefficient = double.Parse(XYScaleTextBox.Text);
+            Data.YCoefficient = double.Parse(XYScaleTextBox.Text);
             Extend();
         }
 
         private void Extend()
         {
-            Data.InterpolatedBitmap = _imageExtension.Extend(Data.CurrentBitmap, Data.XCoefficient, Data.YCoefficient);
-            Data.CurrentBitmap = Data.InterpolatedBitmap;
+            Data.CurrentPixelMatrix = _imageExtension.Extend(Data.CurrentPixelMatrix, Data.XCoefficient, Data.YCoefficient);
+            Data.CurrentBitmap = Data.CurrentPixelMatrix.GetBitmap();
             
             pictureBox1.Image = Data.CurrentBitmap;
+            
+            
+            // for (int y = 0; y < Data.CurrentBitmap.Height; y++)
+            // {
+            //     for(int x = 0; x < Data.CurrentBitmap.Width; x++)
+            //         Console.Write($"{Data.CurrentBitmap.GetPixel(x, y).R} ");
+            //     Console.WriteLine();
+            // }
             
             FillImageInformation();            
         }
@@ -129,15 +137,15 @@ namespace Scaling
         private void InitAlgorithm()
         {
             algorithmLabel.Text = Data.CurrentAlgorithm.ToString();
-            _pixelFilling.Algorithm = Data.CurrentAlgorithm;
         }
 
         private void interpolateButton_Click(object sender, EventArgs e)
         {
             
-            _pixelFilling.Fill(Data.InitialBitmap, Data.InterpolatedBitmap, Data.YCoefficient, Data.XCoefficient);
-            Data.CurrentBitmap = Data.InterpolatedBitmap;
+            Data.CurrentAlgorithm.Fill(Data.InitialPixelMatrix, Data.CurrentPixelMatrix, Data.EmptyColor, Data.XCoefficient, Data.YCoefficient);
+            Data.CurrentBitmap = Data.CurrentPixelMatrix.GetBitmap();
             pictureBox1.Image = Data.CurrentBitmap;
+            
         }
     }
 }

@@ -58,7 +58,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageExtension.cs" />
-    <Compile Include="PixelFilling.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="PixelMatrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SizeCalculator.cs" />
