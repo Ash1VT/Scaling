@@ -27,8 +27,8 @@ namespace Scaling
                 extraHeight = (int)Math.Ceiling(yCoefficient);
             } 
             
-            int newWidth = (int) (oldWidth * xCoefficient) - (extraWidth - 1);
-            int newHeight = (int) (oldHeight * yCoefficient) - (extraHeight - 1);
+            int newWidth = (int) (oldWidth * xCoefficient) ;
+            int newHeight = (int) (oldHeight * yCoefficient) ;
             return new Size(newWidth, newHeight);
 
         }

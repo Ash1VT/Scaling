@@ -10,28 +10,67 @@ namespace Scaling.Algorithms
 
         private List<double> Op = new List<double>();
 
-        private int interval_pixels = 0;
+        private Pixel PrevPixel;
+        
+        // private int interval_pixels = 0;
         public override string ToString()
         {
             return "K-time";
         }
 
+        private void CalculateOp(Pixel pixel1, Pixel pixel2, double coefficient)
+        {
+            Color color1 = pixel1.Color;
+            Color color2 = pixel2.Color;
+            
+            List<double> color1_values = Utility.ConvertFromColor(color1);
+            List<double> color2_values = Utility.ConvertFromColor(color2);
+            
+            List<double> difference_values = Utility.DifferenceColorValues(color1_values, color2_values);
+            
+            Op = Utility.DivideColorValues(difference_values, coefficient);
+        }
        
-        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, Color emptyColor, double xCoefficient,
+        
+        
+        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, double xCoefficient,
             double yCoefficient)
         {
             // 1 0 2 0 4 0
-            
+            Stopwatch.Start();
             for (int y = 0; y < newPixelMatrix.Height; y++)
             {
 
                 if(!newPixelMatrix.GetPixel(0,y).Interpolated)
                     continue;
+                
                 for (int x = 0; x < newPixelMatrix.Width; x++)
                 {
-                    
                     if (newPixelMatrix.GetPixel(x, y).Interpolated)
                     {
+                        if (x != newPixelMatrix.Width - 1)
+                        {
+                            Pixel left_pixel = newPixelMatrix.GetPixel(x, y);
+                            Pixel right_pixel;
+
+                            int current_x = x + 1;
+
+                            while (true)
+                            {
+                                Pixel cur_pixel = newPixelMatrix.GetPixel(current_x, y);
+                                if (cur_pixel.Interpolated)
+                                {
+                                    right_pixel = cur_pixel;
+                                    break;
+                                }
+
+                                current_x++;
+                            }
+
+                            PrevPixel = Utility.GetMinimum(left_pixel, right_pixel);
+                            CalculateOp(left_pixel, right_pixel, xCoefficient);
+                        }
+
                         List<List<double>> colorValues = new List<List<double>>();
                         for (int i = firstPixelCoords.Item1; i <= x; i++)
                         {
@@ -46,61 +85,64 @@ namespace Scaling.Algorithms
                             newPixelMatrix.SetPixel(i, y, new Pixel(Utility.ConvertFromValues(colorValues[index])){Interpolated = true});
                             index++;
                         }
-
+                    
                         
-                        interval_pixels = 0;
                         firstPixelCoords = new Tuple<int, int>(x, y); 
                         continue;
                     }
-                    
-                    double pixelX = x / xCoefficient; 
-                    double pixelY = y / yCoefficient; 
-                    interval_pixels++;
-                        
-            
-                    int x_left = (int)Math.Floor(pixelX); // 0
-                    int x_right = (int)Math.Min(oldPixelMatrix.Width - 1, Math.Ceiling(pixelX)); // 1
-                    int y_coord = (int)Math.Floor(pixelY); // 0
-                    
-                    
-                    
-                    
-                    Color v_left = oldPixelMatrix.GetPixel(x_left, y_coord).Color;
-                    Color v_right = oldPixelMatrix.GetPixel(x_right, y_coord).Color;
 
-                    List<double> v_left_values = Utility.ConvertFromColor(v_left);
-                    List<double> v_right_values = Utility.ConvertFromColor(v_right);
+                    List<double> prevPixelColorValues = Utility.ConvertFromColor(PrevPixel.Color);
 
-                    List<double> difference_values = Utility.DifferenceColorValues(v_left_values, v_right_values);
+                    List<double> pixelValue = Utility.SumColorValues(prevPixelColorValues, Op);
+                    Pixel pixel = new Pixel(Utility.ConvertFromValues(pixelValue)) { Interpolated = true };
+                    newPixelMatrix.SetPixel(x,y, pixel);
+                    PrevPixel = pixel;
 
-                    Op = Utility.DivideColorValues(difference_values, xCoefficient);
-
-
-
-                    List<double> minimum = Utility.GetMinimum(v_left_values, v_right_values);
-
-                    List<double> pixelValue = Utility.SumColorValues(minimum, Utility.MultiplyColorValues(Op,interval_pixels));
-                    newPixelMatrix.SetPixel(x,y,new Pixel(Utility.ConvertFromValues(pixelValue)){Interpolated = true});
+                    // List<double> pixelValue = Utility.SumColorValues(minimum, );
                     // 1 2 
                     // 3 4
                     //
-                    // 1 1,5 2
-                    // 0 0 0
-                    // 3 3,5 4
-                    
-                  
-                    
+                    // 1 0 0 2
+                    // 0 0 0 0
+                    // 3 0 0 4
 
-                    
+
+
+
+
                 }
             }
 
             for (int x = 0; x < newPixelMatrix.Width; x++)
             {
+                
                 for (int y = 0; y < newPixelMatrix.Height; y++)
                 {
                     if (newPixelMatrix.GetPixel(x, y).Interpolated)
                     {
+                        if (y != newPixelMatrix.Height - 1)
+                        {
+                            Pixel top_pixel = newPixelMatrix.GetPixel(x, y);
+                            Pixel bottom_pixel;
+
+                            int current_y = y + 1;
+
+                            while (true)
+                            {
+                                Pixel cur_pixel = newPixelMatrix.GetPixel(x, current_y);
+                                if (cur_pixel.Interpolated)
+                                {
+                                    bottom_pixel = cur_pixel;
+                                    break;
+                                }
+
+                                current_y++;
+                            }
+
+                            PrevPixel = Utility.GetMinimum(top_pixel, bottom_pixel);
+                            CalculateOp(top_pixel, bottom_pixel, yCoefficient);
+                        }
+
                         List<List<double>> colorValues = new List<List<double>>();
                         for (int i = firstPixelCoords.Item2; i <= y; i++)
                         {
@@ -115,46 +157,25 @@ namespace Scaling.Algorithms
                             newPixelMatrix.SetPixel(x, i, new Pixel(Utility.ConvertFromValues(colorValues[index])){Interpolated = true});
                             index++;
                         }
-
+                    
                         
-                        interval_pixels = 0;
                         firstPixelCoords = new Tuple<int, int>(x, y); 
                         continue;
-
                     }
-
-                    double pixelX = x / xCoefficient; 
-                    double pixelY = y / yCoefficient; 
-                    interval_pixels++;
-                        
-            
-                    int y_up = (int)Math.Floor(pixelY); // 0
-                    int y_down = (int)Math.Min(oldPixelMatrix.Height - 1, Math.Ceiling(pixelY)); // 1
-                    int x_coord = (int)Math.Floor(pixelX); // 0
                     
+                    List<double> prevPixelColorValues = Utility.ConvertFromColor(PrevPixel.Color);
+
+                    List<double> pixelValue = Utility.SumColorValues(prevPixelColorValues, Op);
+                    Pixel pixel = new Pixel(Utility.ConvertFromValues(pixelValue)) { Interpolated = true };
+                    newPixelMatrix.SetPixel(x,y, pixel);
+                    PrevPixel = pixel;
                     
-                    
-                    
-                    Color v_up = oldPixelMatrix.GetPixel(x_coord, y_up).Color;
-                    Color v_down = oldPixelMatrix.GetPixel(x_coord, y_down).Color;
-
-                    List<double> v_up_values = Utility.ConvertFromColor(v_up);
-                    List<double> v_down_values = Utility.ConvertFromColor(v_down);
-
-                    List<double> difference_values = Utility.DifferenceColorValues(v_up_values, v_down_values);
-
-                    Op = Utility.DivideColorValues(difference_values, yCoefficient);
-
-
-
-                    List<double> minimum = Utility.GetMinimum(v_up_values, v_down_values);
-
-                    List<double> pixelValue = Utility.SumColorValues(minimum, Utility.MultiplyColorValues(Op,interval_pixels));
-                    newPixelMatrix.SetPixel(x,y,new Pixel(Utility.ConvertFromValues(pixelValue)){Interpolated = true});
+                  
 
                     
                 }
             }
+            Stopwatch.Stop();
 
            
 

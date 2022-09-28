@@ -6,14 +6,18 @@ namespace Scaling.Algorithms
 {
     public class BilinearInterpolationAlgorithm : Algorithm
     {
+        
         public override string ToString()
         {
             return "Bilinear interpolation";
         }
 
-        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, Color emptyColor, double xCoefficient,
-            double yCoefficient)
+        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, double xCoefficient, double yCoefficient)
         {
+            Stopwatch.Start();
+           
+
+            
             for (int y = 0; y < newPixelMatrix.Height; y++)
             {
                 for (int x = 0; x < newPixelMatrix.Width; x++)
@@ -36,11 +40,7 @@ namespace Scaling.Algorithms
                     List<double> q1;
                     List<double> q2;
 
-                    if (x_ceil == x_floor && y_ceil == y_floor)
-                    {
-                        q = Utility.ConvertFromColor(oldPixelMatrix.GetPixel((int)pixelX, (int)pixelY).Color);
-                    }
-                    else if (x_ceil == x_floor)
+                    if (x_ceil == x_floor)
                     {
                         q1 = Utility.ConvertFromColor(oldPixelMatrix.GetPixel((int)pixelX, (int)y_floor).Color);
                         q2 = Utility.ConvertFromColor(oldPixelMatrix.GetPixel((int)pixelX, (int)y_ceil).Color);
@@ -82,8 +82,8 @@ namespace Scaling.Algorithms
                     newPixelMatrix.SetPixel(x, y, new Pixel(Utility.ConvertFromValues(q)){Interpolated = true});
                 }
             }
+            Stopwatch.Stop();
         }
-
 
    
     }

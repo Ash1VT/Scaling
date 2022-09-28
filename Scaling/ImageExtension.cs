@@ -11,11 +11,7 @@ namespace Scaling
         
         public ImageExtension(Color emptyColor)
         {
-            // _oldBitmap = oldBitmap;
-            // _xCoefficient = xCoefficient;
-            // _yCoefficient = yCoefficient;
             _emptyColor = emptyColor;
-            // InitNewBitmap();
         }
 
         public PixelMatrix Extend(PixelMatrix oldPixelMatrix, double xCoefficient, double yCoefficient)
@@ -50,6 +46,53 @@ namespace Scaling
                     
                 }
             }
+
+            int x_max = pixelMatrix.Width - 1;
+            for (int y = 0; y < pixelMatrix.Height; y++)
+            {
+                int currentX = x_max;
+                
+                Pixel interpolatedPixel = null;
+                
+                while (currentX > 0)
+                {
+                    Pixel pixel = pixelMatrix.GetPixel(currentX, y);
+                    if (pixel.Interpolated)
+                    {
+                        interpolatedPixel = pixel;
+                        Pixel currentPixel = pixelMatrix.GetPixel(x_max, y);
+                        pixelMatrix.SetPixel(x_max, y, interpolatedPixel);
+                        pixelMatrix.SetPixel(currentX, y, currentPixel);
+                        break;
+                    }
+                    currentX--;
+                } 
+
+            }
+            int y_max = pixelMatrix.Height - 1;
+
+            for (int x = 0; x < pixelMatrix.Width; x++)
+            {
+                int currentY = y_max;
+                
+                Pixel interpolatedPixel = null;
+                
+                while (currentY > 0)
+                {
+                    Pixel pixel = pixelMatrix.GetPixel(x, currentY);
+                    if (pixel.Interpolated)
+                    {
+                        interpolatedPixel = pixel;
+                        Pixel currentPixel = pixelMatrix.GetPixel(x, y_max);
+                        pixelMatrix.SetPixel(x, y_max, interpolatedPixel);
+                        pixelMatrix.SetPixel(x, currentY, currentPixel);
+                        break;
+                    }
+                    currentY--;
+                } 
+
+            }
+        
 
             return pixelMatrix;
         }
