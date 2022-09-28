@@ -5,10 +5,30 @@ namespace Scaling
 {
     public class SizeCalculator
     {
-        public static Size Calculate(Size oldSize, double xCoefficient, double yCoefficient)
+        public static Size Calculate(int oldWidth, int oldHeight, double xCoefficient, double yCoefficient)
         {
-            int newWidth = (int) (oldSize.Width * xCoefficient);
-            int newHeight = (int) (oldSize.Height * yCoefficient);
+            int extraWidth = 0, extraHeight = 0;
+
+            if (oldWidth % 2 == 0)
+            {
+                extraWidth = (int)Math.Ceiling(xCoefficient);
+            }
+            else
+            {
+                extraWidth = (int)Math.Floor(xCoefficient);
+            }
+
+            if (oldHeight % 2 == 0)
+            {
+                extraHeight = (int)Math.Ceiling(yCoefficient);
+            }
+            else
+            {
+                extraHeight = (int)Math.Ceiling(yCoefficient);
+            } 
+            
+            int newWidth = (int) (oldWidth * xCoefficient) - (extraWidth - 1);
+            int newHeight = (int) (oldHeight * yCoefficient) - (extraHeight - 1);
             return new Size(newWidth, newHeight);
 
         }

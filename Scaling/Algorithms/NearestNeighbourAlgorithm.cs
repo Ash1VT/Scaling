@@ -10,12 +10,24 @@ namespace Scaling.Algorithms
         }
 
 
-        public override void Fill(Bitmap oldBitmap, Bitmap newBitmap, Color emptyColor, int pixelX, int pixelY, double xCoefficient, double yCoefficient)
+        public override void Fill(PixelMatrix oldPixelMatrix, PixelMatrix newPixelMatrix, Color emptyColor, double xCoefficient, double yCoefficient)
         {
-            int oldBitmapPixelX = (int)(pixelX / xCoefficient);
-            int oldBitmapPixelY = (int)(pixelY / yCoefficient);
-            
-            newBitmap.SetPixel(pixelX, pixelY, oldBitmap.GetPixel(oldBitmapPixelX, oldBitmapPixelY));
+            for (int y = 0; y < newPixelMatrix.Height; y++)
+            {
+                for (int x = 0; x < newPixelMatrix.Width; x++)
+                {
+                    
+                    if (newPixelMatrix.GetPixel(x,y).Interpolated)
+                        continue;
+                    
+                    int oldBitmapPixelX = (int)(x / xCoefficient);
+                    int oldBitmapPixelY = (int)(y / yCoefficient);
+
+                    Pixel pixel = oldPixelMatrix.GetPixel(oldBitmapPixelX, oldBitmapPixelY);
+                    pixel.Interpolated = true;
+                    newPixelMatrix.SetPixel(x, y, pixel);
+                }
+            }
         }
         //
         // public override void FillY(Bitmap bitmap, Color emptyColor, int pixelX, int pixelY)

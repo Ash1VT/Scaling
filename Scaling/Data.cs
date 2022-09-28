@@ -6,11 +6,11 @@ namespace Scaling
 {
     public static class Data
     {
+        public static PixelMatrix InitialPixelMatrix { get; set; }
+                
+        public static PixelMatrix CurrentPixelMatrix { get; set; }
+        
         public static Bitmap CurrentBitmap { get; set; }
-        
-        public static Bitmap InterpolatedBitmap { get; set; }
-        
-        public static Bitmap InitialBitmap { get; set; }
         public static FileInfo FileInfo { get; set; }
         
         public static Algorithm CurrentAlgorithm { get; set; }
