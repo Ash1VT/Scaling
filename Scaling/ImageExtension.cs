@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace Scaling
@@ -25,9 +26,9 @@ namespace Scaling
             // 3 4 7
             //
             //
-            // 1 0 0 2 0 0 6 0 0
+            // 1 0 0 2 0 0 0 0 6
             // 0 0 0 0 0 0 0 0 0
-            // 3 0 0 4 0 0 7 0 0
+            // 3 0 0 4 0 0 0 0 7
             // 0 0 0 0 0 0 0 0 0
             //
             
@@ -50,6 +51,7 @@ namespace Scaling
             int x_max = pixelMatrix.Width - 1;
             for (int y = 0; y < pixelMatrix.Height; y++)
             {
+                
                 int currentX = x_max;
                 
                 Pixel interpolatedPixel = null;

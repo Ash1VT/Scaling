@@ -182,7 +182,7 @@ namespace Scaling
 
         private void FillAlgorithmTime()
         {
-            timeLabel.Text = Data.CurrentAlgorithm.Milliseconds.ToString();
+            timeLabel.Text = $"{Data.CurrentAlgorithm.Milliseconds.ToString()} ms";
         }
     }
 }
