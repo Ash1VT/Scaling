@@ -171,7 +171,7 @@ namespace Scaling.Algorithms
                     PrevPixel = pixel;
                     
                   
-
+                    // че за хуйня
                     
                 }
             }
